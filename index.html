@@ -1,0 +1,147 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Seco · Local help, booked simply</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" sizes="any">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/api.js"></script>
+  <script src="js/autocomplete.js"></script>
+  <script src="js/locations.js"></script>
+</head>
+<body class="home-page">
+  <nav class="navbar">
+    <a class="brand" href="index.html">Seco</a>
+    <div class="navlinks">
+      <a href="services.html">Find a service</a>
+      <a href="login.html">Sign in</a>
+      <a class="btn" href="register.html">Get started</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Trusted local experts</span>
+        <h1>Book reliable help for home, life, and work.</h1>
+        <p>From cleaning and repairs to beauty and wellness, Seco connects you with trusted local professionals at the right time.</p>
+
+        <form class="searchbar" action="services.html" method="get">
+          <input list="service-suggestions" name="search" placeholder="What do you need help with?" aria-label="Search services">
+          <input list="city-suggestions" name="city" placeholder="City or state in India" aria-label="City or state">
+          <button type="submit">Find services</button>
+        </form>
+      </div>
+
+      <div class="hero-visual">
+        <img src="https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80" alt="Home service professional">
+        <div class="floating-card">
+          <strong>1,240+</strong>
+          <span>verified pros nearby</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+    <div class="section-head">
+      <div>
+        <span class="eyebrow">Popular right now</span>
+        <h2>Trending services</h2>
+      </div>
+      <a href="services.html">Browse all →</a>
+    </div>
+    <div id="popular" class="grid service-grid"></div>
+
+    <section class="promo-panel">
+      <div>
+        <span class="eyebrow">For service professionals</span>
+        <h2>Grow your local business with Seco</h2>
+        <p>Showcase your work, manage appointments, and get matched with new customers who need your expertise.</p>
+      </div>
+      <a class="btn" href="register.html?role=provider">Join as a provider</a>
+    </section>
+  </main>
+
+  <footer class="footer">© Seco · Local service bookings that feel easy</footer>
+
+  <script>
+    const fallbackServices = [
+      { id: 1, service_name: 'Home electrician', category_name: 'Electrical', description: 'Quick fix for wiring, repairs, and emergency support.', price: 899, provider: { business_name: 'VoltFix Solutions', city: 'Pune', rating: 4.8 }, image: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=900&q=80' },
+      { id: 2, service_name: 'Kitchen plumbing', category_name: 'Plumbing', description: 'Leak repair, fittings, and bathroom upgrades for homes.', price: 749, provider: { business_name: 'FlowPro Plumbing', city: 'Mumbai', rating: 4.7 }, image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80' },
+      { id: 3, service_name: 'Deep home cleaning', category_name: 'Cleaning', description: 'Routine and deep cleaning for busy households.', price: 1299, provider: { business_name: 'SparkNest', city: 'Bangalore', rating: 4.9 }, image: 'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=900&q=80' },
+      { id: 4, service_name: 'Interior painting', category_name: 'Painting', description: 'Freshen up your space with durable finishes.', price: 2499, provider: { business_name: 'ColorCraft Studio', city: 'Delhi', rating: 4.8 }, image: 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80' },
+      { id: 5, service_name: 'AC servicing', category_name: 'Air Conditioning', description: 'Seasonal tune-up and diagnostics for cooling systems.', price: 1699, provider: { business_name: 'CoolCare Experts', city: 'Hyderabad', rating: 4.9 }, image: 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80' },
+      { id: 6, service_name: 'Salon makeup session', category_name: 'Beauty', description: 'Polished looks for events, photoshoots, and special days.', price: 1999, provider: { business_name: 'GlowMuse Studio', city: 'Chennai', rating: 4.7 }, image: 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=900&q=80' }
+    ];
+
+    const categoryImages = {
+      'Electrical': 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=900&q=80',
+      'Plumbing': 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80',
+      'Home Cleaning': 'https://images.unsplash.com/photo-1527515637462-cff94eecc1ac?auto=format&fit=crop&w=900&q=80',
+      'Painting': 'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=900&q=80',
+      'Air Conditioning': 'https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80',
+      'Beauty': 'https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=900&q=80'
+    };
+
+    function serviceImage(service) {
+      return service.image || categoryImages[service.category_name] || 'https://images.unsplash.com/photo-1581578731548-c64695cc6952?auto=format&fit=crop&w=900&q=80';
+    }
+
+    function renderServices(items) {
+      const el = document.querySelector('#popular');
+      if (!items || !items.length) {
+        el.innerHTML = fallbackServices.slice(0, 6).map(s => `
+          <article class="service-card">
+            <img src="${s.image}" alt="${escapeHtml(s.service_name)}">
+            <div class="card-body">
+              <span class="tag">${escapeHtml(s.category_name)}</span>
+              <h3>${escapeHtml(s.service_name)}</h3>
+              <p>${escapeHtml(s.description)}</p>
+              <div class="meta-row">
+                <span>${escapeHtml(s.provider.business_name)}</span>
+                <span>${s.provider.rating_count ? `★ ${Number(s.provider.rating).toFixed(1)}` : 'New'}</span>
+              </div>
+              <div class="bottom-row">
+                <strong>${money(s.price)}</strong>
+                <a class="btn small" href="services.html?search=${encodeURIComponent(s.service_name)}">Find a pro</a>
+              </div>
+            </div>
+          </article>
+        `).join('');
+        return;
+      }
+
+      el.innerHTML = items.slice(0, 6).map(s => `
+        <article class="service-card">
+          <img src="${serviceImage(s)}" alt="${escapeHtml(s.service_name)}">
+          <div class="card-body">
+            <span class="tag">${escapeHtml(s.category_name || 'General')}</span>
+            <h3>${escapeHtml(s.service_name)}</h3>
+            <p>${escapeHtml(s.description || 'Professional service tailored to your needs.')}</p>
+            <div class="meta-row">
+              <span>${escapeHtml(s.provider?.business_name || 'Verified expert')}</span>
+              <span>${s.provider?.rating_count ? `★ ${Number(s.provider.rating).toFixed(1)}` : 'New'}</span>
+            </div>
+            <div class="bottom-row">
+              <strong>${money(s.price || 799)}</strong>
+              <a class="btn small" href="services.html?search=${encodeURIComponent(s.service_name)}">Find a pro</a>
+            </div>
+          </div>
+        </article>
+      `).join('');
+    }
+
+    setupAutocomplete('input[name="search"]', ['Electrician', 'Plumber', 'Cleaning', 'Painter', 'AC repair', 'Beauty salon', 'Housekeeping', 'Massage', 'Appliance repair']);
+    setupIndiaLocationInput('input[name="city"]');
+
+    api.get('/services/?limit=6').then(d => {
+      renderServices(d.items || []);
+    }).catch(() => {
+      renderServices(fallbackServices);
+    });
+  </script>
+</body>
+</html>
